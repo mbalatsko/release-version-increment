@@ -1,0 +1,39 @@
+image:
+  name: python:3.7.6-slim-buster
+
+pipelines:
+  default:
+    - step:
+        - name: Test version file not changed
+        - script:
+            - git diff --exit-code VERSION
+
+  custom:
+    release-inc-patch:
+      - step:
+          caches:
+            - pip
+          name: Release current version and increment minor version
+          script:
+            - apt-get update && apt-get install -y git
+            - pip install fire==0.2.1
+            - ./scripts/release.sh patch
+
+    release-inc-minor:
+      - step:
+          caches:
+            - pip
+          name: Release current version and increment minor version
+          script:
+            - apt-get update && apt-get install -y git
+            - pip install fire==0.2.1
+            - ./scripts/release.sh minor
+    release-inc-major:
+      - step:
+          caches:
+            - pip
+          name: Release current version and increment major version
+          script:
+            - apt-get update && apt-get install -y git
+            - pip install fire==0.2.1
+            - ./scripts/release.sh major

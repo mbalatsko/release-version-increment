@@ -1,0 +1,47 @@
+test-version-changed:
+  stage: test
+  name: Test version file not changed
+  script:
+    - git diff --exit-code VERSION
+
+release-inc-patch:
+  stage: deploy
+  image: python:3.7.6-slim-buster
+  caches:
+    - pip
+  name: Release current version and increment patch version
+  script:
+    - apt-get update && apt-get install -y git
+    - pip install fire==0.2.1
+    - ./scripts/release.sh patch
+  when: manual
+  only:
+    - master
+
+release-inc-minor:
+  stage: deploy
+  image: python:3.7.6-slim-buster
+  caches:
+    - pip
+  name: Release current version and increment minor version
+  script:
+    - apt-get update && apt-get install -y git
+    - pip install fire==0.2.1
+    - ./scripts/release.sh minor
+  when: manual
+  only:
+    - master
+
+release-inc-major:
+  stage: deploy
+  image: python:3.7.6-slim-buster
+  caches:
+    - pip
+  name: Release current version and increment major version
+  script:
+    - apt-get update && apt-get install -y git
+    - pip install fire==0.2.1
+    - ./scripts/release.sh major
+  when: manual
+  only:
+    - master
