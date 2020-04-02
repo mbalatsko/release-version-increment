@@ -36,7 +36,7 @@ git fetch origin "${branch}:${branch}" || git pull
 git checkout "${branch}"
 ./scripts/version.py inc-${release_type}
 
-next_working_version=$(./scripts/version.py get --with-suffix)
+next_working_version=$(./scripts/version.py get --with-pre-release-placeholder)
 git add ${version_file}
 git commit -m "Incrementing working version to ${next_working_version} after ${version} release."
 git push origin ${branch}
